@@ -77,6 +77,13 @@
 			<version>2.10.10</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.sitemesh/sitemesh -->
+		<dependency>
+			<groupId>org.sitemesh</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
 
 
 	</dependencies>
