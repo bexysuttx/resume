@@ -3,7 +3,6 @@ package resume.bexysuttx.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import resume.bexysuttx.form.SkillForm;
-import resume.bexysuttx.repository.storage.ProfileRepository;
-import resume.bexysuttx.repository.storage.SkillCategoryRepository;
+import resume.bexysuttx.service.EditProfileService;
+import resume.bexysuttx.util.SecurityUtil;
 
 @Controller
 public class EditProfileController {
 
 	@Autowired
-	private SkillCategoryRepository skillCategoryRepository;
+	private EditProfileService  editProfileService;
 
-	@Autowired
-	private ProfileRepository profileRepository;
+
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String getEditProfile() {
@@ -31,7 +29,7 @@ public class EditProfileController {
 
 	@RequestMapping(value = "/edit/skills", method = RequestMethod.GET)
 	public String getEditSkills(Model model) {
-		model.addAttribute("skillForm", new SkillForm(profileRepository.findOne(2L).getSkills()));
+		model.addAttribute("skillForm", new SkillForm(editProfileService.listSkills(SecurityUtil.getCurrentIdProfile())));
 		return gotoSkillsJSP(model);
 	}
 
@@ -48,7 +46,7 @@ public class EditProfileController {
 	}
 
 	private String gotoSkillsJSP(Model model) {
-		model.addAttribute("skillCategories", skillCategoryRepository.findAll(new Sort("id")));
+		model.addAttribute("skillCategories", editProfileService.listSkillCategories());
 		return "edit/skills";
 	}
 }

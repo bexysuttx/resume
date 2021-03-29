@@ -12,9 +12,9 @@ public class SkillForm implements Serializable {
 	private static final long serialVersionUID = 3092412421286877262L;
 	@Valid
 	private List<Skill> items = new ArrayList<>();
-	
+
 	public SkillForm() {
-	
+		super();
 	}
 
 	public SkillForm(List<Skill> items) {
