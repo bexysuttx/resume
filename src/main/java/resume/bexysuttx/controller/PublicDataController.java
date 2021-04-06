@@ -1,12 +1,19 @@
 package resume.bexysuttx.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import resume.bexysuttx.Constants;
 import resume.bexysuttx.entity.Profile;
 import resume.bexysuttx.service.FindProfileService;
 
@@ -18,7 +25,7 @@ public class PublicDataController {
 
 	@RequestMapping(value = "/{uid}", method = RequestMethod.GET)
 	public String getProfile(@PathVariable("uid") String uid, Model model) {
-		Profile profile = findProfileService.findByUid(uid); 
+		Profile profile = findProfileService.findByUid(uid);
 		if (profile == null) {
 			return "profile_not_found";
 		}
@@ -31,10 +38,22 @@ public class PublicDataController {
 		return "error";
 	}
 
-	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String getWelcome() {
-		return "welcome";
+	@RequestMapping(value = { "/welcome" })
+	public String listAll(Model model, Pageable pageable) {
+		Page<Profile> profiles = findProfileService.findAll(new PageRequest(0, Constants.MAX_PROFILE_PER_PAGE, new Sort("id")));
+		model.addAttribute("profiles", profiles.getContent());
+		model.addAttribute("page", profiles);
+		return "profiles";
 	}
+
+	@RequestMapping(value = "/fragment/more" , method = RequestMethod.GET )
+	public String moreProfiles(Model model,
+			@PageableDefault(size = Constants.MAX_PROFILE_PER_PAGE) @SortDefault(sort = "id") Pageable pageable) {
+		Page<Profile> profiles = findProfileService.findAll(pageable);
+		model.addAttribute("profiles", profiles.getContent());
+		return "fragment/profile-items";
+	}
+
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String getSearch() {

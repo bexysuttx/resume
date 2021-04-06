@@ -61,7 +61,9 @@ public class ResumeWebApplicationInitializer implements WebApplicationInitialize
 		return new ConfigurableSiteMeshFilter() {
 			@Override
 			protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
-				builder.addDecoratorPath("/*", "/WEB-INF/template/page-template.jsp");
+				builder
+				.addDecoratorPath("/*", 		 "/WEB-INF/template/page-template.jsp")
+				.addDecoratorPath("/fragment/*", "/WEB-INF/template/fragment-template.jsp");
 			}
 		};
 	}
