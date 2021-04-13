@@ -15,6 +15,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import resume.bexysuttx.model.LanguageLevel;
 import resume.bexysuttx.model.LanguageType;
 
@@ -42,6 +44,7 @@ public class Language extends AbstractEntity<Long> implements Serializable, Prof
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_profile", nullable = false)
+	@JsonIgnore
 	private Profile profile;
 
 	public Long getId() {
