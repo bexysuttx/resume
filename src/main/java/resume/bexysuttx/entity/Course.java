@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "course")
 public class Course extends AbstractFinishDateEntity<Long> implements ProfileEntity, Serializable {
@@ -33,6 +35,7 @@ public class Course extends AbstractFinishDateEntity<Long> implements ProfileEnt
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_profile", nullable = false)
+	@JsonIgnore
 	private Profile profile;
 
 	public Long getId() {

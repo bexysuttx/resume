@@ -8,6 +8,7 @@ import resume.bexysuttx.entity.SkillCategory;
 import resume.bexysuttx.form.SignUpForm;
 
 public interface EditProfileService {
+	
 	Profile createNewProfile(SignUpForm signUpForm);
 	
 	List<Skill> listSkills(long idProfile);

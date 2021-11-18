@@ -17,6 +17,8 @@ import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "practic")
 public class Practic extends AbstractFinishDateEntity<Long> implements Serializable, ProfileEntity {
@@ -54,6 +56,7 @@ public class Practic extends AbstractFinishDateEntity<Long> implements Serializa
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_profile", nullable = false)
+	@JsonIgnore
 	private Profile profile;
 
 	public Long getId() {

@@ -22,11 +22,15 @@ import javax.persistence.Transient;
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
 import org.joda.time.Years;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import resume.bexysuttx.annotation.constraints.Adulthood;
 
 @Entity
 @Table(name = "profile")
+@Document(indexName = "profile")
 public class Profile extends AbstractEntity<Long> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -56,9 +60,11 @@ public class Profile extends AbstractEntity<Long> implements Serializable {
 	private String lastName;
 
 	@Column(unique = true, length = 20)
+	@JsonIgnore
 	private String phone;
 
 	@Column(unique = true, length = 100)
+	@JsonIgnore
 	private String email;
 
 	@Column
@@ -68,6 +74,7 @@ public class Profile extends AbstractEntity<Long> implements Serializable {
 	private String summary;
 
 	@Column(name = "large_photo", length = 255)
+	@JsonIgnore
 	private String largePhoto;
 
 	@Column(name = "small_photo", length = 255)
@@ -77,12 +84,15 @@ public class Profile extends AbstractEntity<Long> implements Serializable {
 	private String info;
 
 	@Column(nullable = false, length = 255)
+	@JsonIgnore
 	private String password;
 
 	@Column(nullable = false)
+	@JsonIgnore
 	private boolean completed;
 
 	@Column(insertable = false)
+	@JsonIgnore
 	private Timestamp created;
 
 	@OneToMany(mappedBy = "profile", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
@@ -90,10 +100,12 @@ public class Profile extends AbstractEntity<Long> implements Serializable {
 
 	@OneToMany(mappedBy = "profile", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@OrderBy("finishYear DESC, beginYear DESC, id DESC")
+	@JsonIgnore
 	private List<Education> educations;
 
 	@OneToMany(mappedBy = "profile", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@OrderBy("name ASC")
+	@JsonIgnore
 	private List<Hobby> hobbies;
 
 	@OneToMany(mappedBy = "profile", cascade = { CascadeType.MERGE, CascadeType.PERSIST })

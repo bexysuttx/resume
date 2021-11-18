@@ -1,6 +1,6 @@
 package resume.bexysuttx.service.impl;
 
-
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import resume.bexysuttx.entity.Profile;
 import resume.bexysuttx.entity.Skill;
@@ -19,8 +21,11 @@ import resume.bexysuttx.exception.CantCompleteClientRequestException;
 import resume.bexysuttx.form.SignUpForm;
 import resume.bexysuttx.repository.storage.ProfileRepository;
 import resume.bexysuttx.repository.storage.SkillCategoryRepository;
+import resume.bexysuttx.search.ProfileSearchRepository;
 import resume.bexysuttx.service.EditProfileService;
 import resume.bexysuttx.util.DataUtil;
+
+
 
 @Service
 public class EditProfileServiceImpl implements EditProfileService {
@@ -31,6 +36,9 @@ public class EditProfileServiceImpl implements EditProfileService {
 
 	@Autowired
 	private ProfileRepository profileRepository;
+
+	@Autowired
+	private ProfileSearchRepository profileSearchRepository;
 
 	@Value("${generate.uid.max.try.count}")
 	private int maxTryCountToGenerateUid;
@@ -51,7 +59,24 @@ public class EditProfileServiceImpl implements EditProfileService {
 		profile.setPassword(signUpForm.getPassword());
 		profile.setCompleted(false);
 		profileRepository.save(profile);
+		registerCreateIndexProfileIfTransactionSuccess(profile);
 		return profile;
+	}
+
+	private void registerCreateIndexProfileIfTransactionSuccess(final Profile profile) {
+		TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+			@Override
+			public void afterCommit() {
+				LOGGER.info("New profile created: {}" + profile.getUid());
+				profile.setCourses(Collections.EMPTY_LIST);
+				profile.setCertificates(Collections.EMPTY_LIST);
+				profile.setPractics(Collections.EMPTY_LIST);
+				profile.setLanguages(Collections.EMPTY_LIST);
+				profile.setSkills(Collections.EMPTY_LIST);
+				profileSearchRepository.save(profile);
+				LOGGER.info("New profile index created: {}" + profile.getUid());
+			}
+		});
 	}
 
 	@Override
@@ -74,7 +99,22 @@ public class EditProfileServiceImpl implements EditProfileService {
 		} else {
 			profile.setSkills(updatedData);
 			profileRepository.save(profile);
+			registerUpdateSkillsIndexProfileIfTransactionSuccess(idProfile, updatedData);
 		}
+	}
+
+	private void registerUpdateSkillsIndexProfileIfTransactionSuccess(final long idProfile,
+			final List<Skill> updatedData) {
+		TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
+			@Override
+			public void afterCommit() {
+				LOGGER.info("Profile skills updated");
+				Profile p = profileSearchRepository.findOne(idProfile);
+				p.setSkills(updatedData);
+				profileSearchRepository.save(p);
+				LOGGER.info("Profile skills index updated");
+			}
+		});
 	}
 
 	private String generateProfileUid(SignUpForm signUpForm) {

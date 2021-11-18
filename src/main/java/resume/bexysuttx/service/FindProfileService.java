@@ -13,4 +13,8 @@ public interface FindProfileService {
 	
 	Page<Profile> findAll(Pageable pageable);
 	
+	Iterable<Profile> findAllForIndexing();
+	
+	Page<Profile> findBySearchQuery(String query,Pageable pageable);
+	
 }
