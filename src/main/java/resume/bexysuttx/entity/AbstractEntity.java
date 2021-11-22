@@ -1,8 +1,8 @@
 package resume.bexysuttx.entity;
 
-import java.io.Serializable;
-
 import resume.bexysuttx.model.AbstractModel;
+
+import java.io.Serializable;
 
 public abstract class AbstractEntity<T> extends AbstractModel implements Serializable {
 	private static final long serialVersionUID = 174883065715889028L;

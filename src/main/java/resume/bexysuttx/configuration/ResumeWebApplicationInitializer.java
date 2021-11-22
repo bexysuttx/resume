@@ -1,13 +1,5 @@
 package resume.bexysuttx.configuration;
 
-import java.util.EnumSet;
-
-import javax.servlet.Filter;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-import javax.servlet.SessionTrackingMode;
-
 import org.sitemesh.builder.SiteMeshFilterBuilder;
 import org.sitemesh.config.ConfigurableSiteMeshFilter;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
@@ -16,10 +8,16 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.filter.RequestContextFilter;
 import org.springframework.web.servlet.DispatcherServlet;
-
 import resume.bexysuttx.filter.ResumeFilter;
 import resume.bexysuttx.listener.ApplicationListener;
+
+import javax.servlet.*;
+import java.util.EnumSet;
+
+
 
 public class ResumeWebApplicationInitializer implements WebApplicationInitializer {
 
@@ -32,7 +30,6 @@ public class ResumeWebApplicationInitializer implements WebApplicationInitialize
 		container.addListener(ctx.getBean(ApplicationListener.class));
 
 		registerFilters(container, ctx);
-
 		registerSpringMVCDispatcherServlet(container, ctx);
 	}
 
@@ -44,28 +41,13 @@ public class ResumeWebApplicationInitializer implements WebApplicationInitialize
 		return ctx;
 	}
 
-	private void registerSpringMVCDispatcherServlet(ServletContext container, WebApplicationContext ctx) {
-		ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
-		servlet.setLoadOnStartup(1);
-		servlet.addMapping("/");
-	}
-
 	private void registerFilters(ServletContext container, WebApplicationContext ctx) {
 		registerFilter(container, ctx.getBean(ResumeFilter.class));
 		registerFilter(container, new CharacterEncodingFilter("UTF-8", true));
 		registerFilter(container, new OpenEntityManagerInViewFilter());
+		registerFilter(container, new RequestContextFilter());
+		registerFilter(container, new DelegatingFilterProxy("springSecurityFilterChain"), "springSecurityFilterChain");
 		registerFilter(container, buildConfigurableSiteMeshFilter(), "sitemesh");
-	}
-
-	private ConfigurableSiteMeshFilter buildConfigurableSiteMeshFilter() {
-		return new ConfigurableSiteMeshFilter() {
-			@Override
-			protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
-				builder
-				.addDecoratorPath("/*", 		 "/WEB-INF/template/page-template.jsp")
-				.addDecoratorPath("/fragment/*", "/WEB-INF/template/fragment-template.jsp");
-			}
-		};
 	}
 
 	private void registerFilter(ServletContext container, Filter filter, String... filterNames) {
@@ -73,4 +55,19 @@ public class ResumeWebApplicationInitializer implements WebApplicationInitialize
 		container.addFilter(filterName, filter).addMappingForUrlPatterns(null, true, "/*");
 	}
 
+	private void registerSpringMVCDispatcherServlet(ServletContext container, WebApplicationContext ctx) {
+		ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
+		servlet.setLoadOnStartup(1);
+		servlet.addMapping("/");
+	}
+
+	private ConfigurableSiteMeshFilter buildConfigurableSiteMeshFilter() {
+		return new ConfigurableSiteMeshFilter() {
+			@Override
+			protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
+				builder.addDecoratorPath("/*", "/WEB-INF/template/page-template.jsp").addDecoratorPath("/fragment/*",
+						"/WEB-INF/template/fragment-template.jsp");
+			}
+		};
+	}
 }

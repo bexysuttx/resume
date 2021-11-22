@@ -1,13 +1,12 @@
 package resume.bexysuttx.form;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import resume.bexysuttx.annotation.constraints.EnglishLanguage;
 import resume.bexysuttx.annotation.constraints.FieldMatch;
 import resume.bexysuttx.annotation.constraints.PasswordStrength;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @FieldMatch(first = "password", second = "confirmPassword" , message="The password fields must match")
 public class SignUpForm implements Serializable {

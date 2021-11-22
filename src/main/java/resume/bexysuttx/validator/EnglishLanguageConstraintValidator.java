@@ -1,9 +1,9 @@
 package resume.bexysuttx.validator;
 
+import resume.bexysuttx.annotation.constraints.EnglishLanguage;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import resume.bexysuttx.annotation.constraints.EnglishLanguage;
 
 public class EnglishLanguageConstraintValidator implements ConstraintValidator<EnglishLanguage, String> {
 

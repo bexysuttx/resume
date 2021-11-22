@@ -1,32 +1,18 @@
 package resume.bexysuttx.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.joda.time.LocalDate;
+import org.joda.time.YearMonth;
+import org.joda.time.Years;
+import org.springframework.data.elasticsearch.annotations.Document;
+import resume.bexysuttx.annotation.constraints.Adulthood;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Locale;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.joda.time.LocalDate;
-import org.joda.time.YearMonth;
-import org.joda.time.Years;
-import org.springframework.data.elasticsearch.annotations.Document;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import resume.bexysuttx.annotation.constraints.Adulthood;
 
 @Entity
 @Table(name = "profile")

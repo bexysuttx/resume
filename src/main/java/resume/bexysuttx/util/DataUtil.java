@@ -1,10 +1,9 @@
 package resume.bexysuttx.util;
 
-import java.util.Random;
-
 import org.apache.commons.text.WordUtils;
-
 import resume.bexysuttx.form.SignUpForm;
+
+import java.util.Random;
 
 public class DataUtil {
 	

@@ -1,11 +1,11 @@
 package resume.bexysuttx.service;
 
-import java.util.List;
-
 import resume.bexysuttx.entity.Profile;
 import resume.bexysuttx.entity.Skill;
 import resume.bexysuttx.entity.SkillCategory;
 import resume.bexysuttx.form.SignUpForm;
+
+import java.util.List;
 
 public interface EditProfileService {
 	

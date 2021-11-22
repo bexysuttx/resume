@@ -1,16 +1,18 @@
 var resume = {
-	alert : function(message) {
+		
+	alert : function(message){
 		alert(message);
 	},
+	
 	moreProfiles : function() {
-		var page = parseInt($('#profileContainer').attr('data-profile-number')) +1;
-		var total = parseInt($('#profileContainer').attr('data-profile-total'));
-		if ( page >= total) {
+		var page = parseInt($('#profileContainer').attr('data-profile-number')) + 1;
+		var total= parseInt($('#profileContainer').attr('data-profile-total'));
+		if (page >= total) {
 			$('#loadMoreIndicator').remove();
 			$('#loadMoreContainer').remove();
 			return;
 		}
-		var url='/fragment/more?page=' + page;
+		var url = '/fragment/more?page=' + page;
 		
 		$('#loadMoreContainer').css('display', 'none');
 		$('#loadMoreIndicator').css('display', 'block');
@@ -19,8 +21,8 @@ var resume = {
 			success : function(data) {
 				$('#loadMoreIndicator').css('display', 'none');
 				$('#profileContainer').append(data);
-				$('#profileContainer').attr('data-profile-number',page);
-				if (page >= total -1) {
+				$('#profileContainer').attr('data-profile-number', page);
+				if (page >= total-1) {
 					$('#loadMoreIndicator').remove();
 					$('#loadMoreContainer').remove();
 				} else {
@@ -32,6 +34,5 @@ var resume = {
 				resume.alert('Error! Try again later...');
 			}
 		});
-		
 	}
 };

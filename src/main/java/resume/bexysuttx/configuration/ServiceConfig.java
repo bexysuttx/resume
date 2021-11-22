@@ -1,13 +1,13 @@
 package resume.bexysuttx.configuration;
 
-import java.io.IOException;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+
+import java.io.IOException;
 
 @Configuration
 @ComponentScan({ "resume.bexysuttx.controller", "resume.bexysuttx.listener", "resume.bexysuttx.service.impl", "resume.bexysuttx.filter" })

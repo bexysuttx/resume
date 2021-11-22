@@ -1,10 +1,8 @@
 package resume.bexysuttx.service;
 
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import resume.bexysuttx.entity.Profile;
 
 public interface FindProfileService {

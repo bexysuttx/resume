@@ -5,10 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import resume.bexysuttx.entity.Profile;
+import resume.bexysuttx.repository.search.ProfileSearchRepository;
 import resume.bexysuttx.repository.storage.ProfileRepository;
-import resume.bexysuttx.search.ProfileSearchRepository;
 import resume.bexysuttx.service.FindProfileService;
 
 @Service

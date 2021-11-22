@@ -1,12 +1,12 @@
 package resume.bexysuttx.listener;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 @Component
 public class ApplicationListener implements ServletContextListener {

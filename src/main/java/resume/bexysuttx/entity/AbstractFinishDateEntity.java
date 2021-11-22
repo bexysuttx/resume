@@ -1,12 +1,11 @@
 package resume.bexysuttx.entity;
 
-import java.sql.Date;
+import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-
-import org.joda.time.DateTime;
+import java.sql.Date;
 
 @MappedSuperclass
 public abstract class AbstractFinishDateEntity<T> extends AbstractEntity<T> {

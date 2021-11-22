@@ -1,16 +1,15 @@
 package resume.bexysuttx.service;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
-
 import resume.bexysuttx.entity.Profile;
-import resume.bexysuttx.search.ProfileSearchRepository;
+import resume.bexysuttx.repository.search.ProfileSearchRepository;
+
+import javax.annotation.PostConstruct;
 
 @Service
 public class ElasticSearchIndexingService {

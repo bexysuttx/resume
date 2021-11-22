@@ -1,14 +1,13 @@
 package resume.bexysuttx.filter;
 
-import java.io.IOException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import java.io.IOException;
 
 @Component
 public class ResumeFilter extends AbstractFilter {

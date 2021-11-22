@@ -1,12 +1,11 @@
 package resume.bexysuttx.form;
 
+import resume.bexysuttx.entity.Skill;
+
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.validation.Valid;
-
-import resume.bexysuttx.entity.Skill;
 
 public class SkillForm implements Serializable {
 	private static final long serialVersionUID = 3092412421286877262L;

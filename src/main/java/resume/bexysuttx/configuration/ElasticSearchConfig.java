@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-@EnableElasticsearchRepositories("resume.bexysuttx.search")
+@EnableElasticsearchRepositories("resume.bexysuttx.repository.search")
 public class ElasticSearchConfig {
 
 	@Value("${elasticsearch.home}")
@@ -21,8 +21,9 @@ public class ElasticSearchConfig {
 	public Node node() {
 		return new NodeBuilder().local(true).settings(Settings.builder().put("path.home", elasticSearch)).node();
 	}
-	
-	public ElasticsearchOperations elasticsearchOperations() {
+
+	@Bean
+	public ElasticsearchOperations elasticsearchTemplate() {
 		return new ElasticsearchTemplate(node().client());
 	}
 

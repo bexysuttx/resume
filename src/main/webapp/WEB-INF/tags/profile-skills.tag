@@ -27,8 +27,8 @@
 				</tr>
 				<tr>
 					<td>Java</td>
-					<td>Spring MVC, Logback, JSP, JSTL, Spring Data JPA, Apache Commons, Spring Security, Hibernate JPA, Facebook Social API, Servlets, JDBC, Google+
-						Social API, Threads, IO, JAXB, GSON</td>
+					<td>Spring MVC, Logback, JSP, JSTL, Spring Data JPA, Apache Commons, Spring Security, Hibernate JPA, Facebook Social API, Servlets, JDBC,
+						Google+ Social API, Threads, IO, JAXB, GSON</td>
 				</tr>
 				<tr>
 					<td>IDE</td>

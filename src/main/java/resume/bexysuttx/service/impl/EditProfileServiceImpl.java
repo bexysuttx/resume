@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
@@ -19,16 +22,15 @@ import resume.bexysuttx.entity.Skill;
 import resume.bexysuttx.entity.SkillCategory;
 import resume.bexysuttx.exception.CantCompleteClientRequestException;
 import resume.bexysuttx.form.SignUpForm;
+import resume.bexysuttx.model.CurrentProfile;
+import resume.bexysuttx.repository.search.ProfileSearchRepository;
 import resume.bexysuttx.repository.storage.ProfileRepository;
 import resume.bexysuttx.repository.storage.SkillCategoryRepository;
-import resume.bexysuttx.search.ProfileSearchRepository;
 import resume.bexysuttx.service.EditProfileService;
 import resume.bexysuttx.util.DataUtil;
 
-
-
 @Service
-public class EditProfileServiceImpl implements EditProfileService {
+public class EditProfileServiceImpl implements EditProfileService, UserDetailsService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EditProfileServiceImpl.class);
 
 	@Autowired
@@ -129,6 +131,28 @@ public class EditProfileServiceImpl implements EditProfileService {
 
 		}
 		return uid;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Profile profile = findByUsername(username);
+		if (profile != null) {
+			return new CurrentProfile(profile);
+		} else {
+			LOGGER.info("Profile not found by " + username);
+			throw new UsernameNotFoundException("Profile not found by " + username);
+		}
+	}
+
+	private Profile findByUsername(String username) {
+		Profile profile = profileRepository.findByUid(username);
+		if (profile == null) {
+			profile = profileRepository.findByEmail(username);
+			if (profile == null) {
+				profile = profileRepository.findByPhone(username);
+			}
+		}
+		return profile;
 	}
 
 }
