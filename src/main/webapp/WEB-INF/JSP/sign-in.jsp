@@ -6,7 +6,7 @@
 <div class="panel panel-info small-center-block">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<i class="fa fa-sign-in"></i> Вход в Ваш личный кабинет 
+			<i class="fa fa-sign-in"></i> Вход в Ваш личный кабинет
 		</h3>
 	</div>
 	<div class="panel-body">
@@ -31,8 +31,11 @@
 				<label><input type="checkbox" name="remember-me" value="true"> Запомнить меня</label>
 			</div>
 			<div class="form-group">
-			<button type="submit" class="btn btn-primary pull-left">Войти</button>
-			<a href="#" class="pull-right">Восстановить доступ</a>
+				<button type="submit" class="btn btn-primary pull-left">Войти</button>
+				<a href="#" class="pull-right">Восстановить доступ</a>
+			</div>
+			<div class="form-group text-center">
+				<a href="/fblogin" class="btn btn-warning">Войти через Facebook</a>
 			</div>
 		</form>
 	</div>
